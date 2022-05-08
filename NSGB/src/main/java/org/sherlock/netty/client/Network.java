@@ -35,7 +35,6 @@ public class Network {
                         .handler(new ChannelInitializer<SocketChannel>() {
                             @Override
                             protected void initChannel(SocketChannel socketChannel) throws Exception {
-                                channel = socketChannel;
                                 socketChannel.pipeline().addLast(
                                         new ObjectDecoder(MB_20, ClassResolvers.cacheDisabled(null)),
                                         new ObjectEncoder(),
@@ -44,9 +43,11 @@ public class Network {
                             }
                         });
                 ChannelFuture future = b.connect(HOST, PORT).sync();
+                //ChannelFuture future = b.connect(HOST, PORT);
                 this.channel = future.channel();
                 // ниже стоит блокирующая операция, чтобы она не блокировала работу Network мы ее запускаем в отдельном потоке
                 future.channel().closeFuture().sync();
+                //future.channel().closeFuture();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {

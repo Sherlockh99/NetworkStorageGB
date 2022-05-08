@@ -67,6 +67,10 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
             BasicResponse basicResponse = new GetFileListResponse("OK", pathList);
             ctx.writeAndFlush(basicResponse);
         }
+        //else if (request instanceof UploadFileRequest) {
+
+
+        //}
     }
 
     @Override

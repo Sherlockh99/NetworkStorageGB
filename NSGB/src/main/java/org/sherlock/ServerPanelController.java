@@ -97,7 +97,6 @@ public class ServerPanelController implements Initializable {
 
 
     public void updateServerList(Path path, List<File> serverItemsList) {
-
         pathFieldR.setText(path.normalize().toAbsolutePath().toString());
         filesTableR.getItems().clear();
         List<FileInfo> serverFileList = serverItemsList.stream()
