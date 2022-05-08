@@ -60,7 +60,7 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
                 ctx.writeAndFlush(LOGIN_BAD_RESPONSE);
             }
         } else if (request instanceof GetFileListRequest) {
-            Path serverPath = Paths.get("/Users/bchervoniy/IdeaProjects/fm/server-dir");
+            Path serverPath = Paths.get("c:\\Programming\\Java\\GB\\NetworkStorageCourse\\");
             List<File> pathList = Files.list(serverPath)
                     .map(Path::toFile)
                     .collect(Collectors.toList());

@@ -12,13 +12,14 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.sherlock.netty.common.ClientHandler;
+import org.sherlock.netty.common.dto.BasicRequest;
 
 public class Network {
 
     private static final Network INSTANCE = new Network();
 
     private static final String HOST = "localhost";
-    private static final int PORT = 45002;
+    private static final int PORT = 45004;
     public static final int MB_20 = 20 * 1_000_000;
     private Channel channel;
 
@@ -61,11 +62,9 @@ public class Network {
         channel.close();
     }
 
-    /*
     public void sendRequest(BasicRequest basicRequest) throws InterruptedException {
         channel.writeAndFlush(basicRequest).sync();
     }
-    */
 
     public static Network getInstance() {
         return INSTANCE;

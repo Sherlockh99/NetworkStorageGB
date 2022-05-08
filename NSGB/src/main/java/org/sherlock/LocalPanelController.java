@@ -10,35 +10,32 @@ import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import org.sherlock.netty.ControllerRegistry;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.ResourceBundle;
 import java.util.stream.Collectors;
 
-public class ServerPanelController implements Initializable {
+public class LocalPanelController implements Initializable {
 
     @FXML
-    TableView<FileInfo> filesTableR;
-
+    TableView<FileInfo> filesTable;
     @FXML
-    TextField pathFieldR;
-
-    private Path upperCatalogName;
+    ComboBox<String> disksBox;
+    @FXML
+    TextField pathField;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
         ControllerRegistry.register(this);
 
         TableColumn<FileInfo, String> fileTypeColumn = new TableColumn<>();
         fileTypeColumn.setCellValueFactory(param ->
-                new SimpleStringProperty(param.getValue().getLevel().getName()));
+                new SimpleStringProperty(param.getValue().getType().getName()));
         fileTypeColumn.setPrefWidth(20);
 
         TableColumn<FileInfo, String> filenameColumn = new TableColumn<>("Имя");
@@ -75,89 +72,69 @@ public class ServerPanelController implements Initializable {
                 new SimpleStringProperty(param.getValue().getLastModified().format(dtf)));
         fileDateColumn.setPrefWidth(120);
 
-        filesTableR.getColumns().addAll(fileTypeColumn, filenameColumn, filesizeColumn, fileDateColumn);
-        filesTableR.getSortOrder().add(fileTypeColumn);
-        filesTableR.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        filesTable.getColumns().addAll(filenameColumn, filesizeColumn, fileDateColumn);
+        filesTable.getSortOrder().add(fileTypeColumn);
+        filesTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
                     // Paths.get(pathField.getText()) = корень текущего каталога
                     // filesTable.getSelectionModel()... = имя выбранного файла
                     // ...resolve... = склейка пути и файла
-                    Path path = Paths.get(pathFieldR.getText()).resolve(filesTableR.getSelectionModel().getSelectedItem().getFilename());
+                    Path path = Paths.get(pathField.getText()).resolve(filesTable.getSelectionModel().getSelectedItem().getFilename());
                     if (Files.isDirectory(path)) {
-                        updateListR(path);
+                        updateListL(path);
                     }
                 }
             }
         });
 
-        upperCatalogName = Paths.get(pathFieldR.getText());
+        disksBox.getItems().clear();
+        for (Path p : FileSystems.getDefault().getRootDirectories()) {
+            disksBox.getItems().add(p.toString());
+        }
+        disksBox.getSelectionModel().select(0);
+
+        updateListL(Paths.get("."));
+
     }
 
-
-    public void updateServerList(Path path, List<File> serverItemsList) {
-
-        pathFieldR.setText(path.normalize().toAbsolutePath().toString());
-        filesTableR.getItems().clear();
-        List<FileInfo> serverFileList = serverItemsList.stream()
-                .map(File::toPath)
-                .map(FileInfo::new)
-                .collect(Collectors.toList());
-        filesTableR.getItems().addAll(serverFileList);
-        filesTableR.sort();
-    }
-
-
-    public void updateListR(Path path) {
-
+    public void updateListL(Path path) {
         try {
-            pathFieldR.setText(path.normalize().toAbsolutePath().toString());
-            filesTableR.getItems().clear();
-            filesTableR.getItems().addAll(Files.list(path).map(FileInfo::new).collect(Collectors.toList()));
-            filesTableR.sort();
+            pathField.setText(path.normalize().toAbsolutePath().toString());
+            filesTable.getItems().clear();
+            filesTable.getItems().addAll(Files.list(path).map(FileInfo::new).collect(Collectors.toList()));
+            filesTable.sort();
         } catch (IOException e) {
             Alert alert = new Alert(Alert.AlertType.WARNING, "Не удалось обновить список файлов", ButtonType.OK);
             alert.showAndWait();
         }
-
-
     }
 
-
-    public void btnPathUpActionR(ActionEvent actionEvent) {
-        Path currentPath = Paths.get(pathFieldR.getText());
-        Path upperPath = Paths.get(pathFieldR.getText()).getParent();
-        if (currentPath.equals(upperCatalogName)) {
-            return;
+    public void btnPathUpAction(ActionEvent actionEvent) {
+        Path upperPath = Paths.get(pathField.getText()).getParent();
+        if (upperPath != null) {
+            updateListL(upperPath);
         }
-        if (upperPath == null) {
-            return;
-        }
-        updateListR(upperPath);
-
-
     }
 
-    public String getSelectedFilenameR() {
+    public void selectDiskAction(ActionEvent actionEvent) {
+        ComboBox<String> element = (ComboBox<String>) actionEvent.getSource();
+        updateListL(Paths.get(element.getSelectionModel().getSelectedItem()));
+    }
 
-        if (filesTableR == null) {
+    public String getSelectedFilenameL() {
+        if (filesTable == null) {
             return null;
         }
 
-        if (!filesTableR.isFocused()) {
+        if (!filesTable.isFocused()) {
             return null;
         }
-        return filesTableR.getSelectionModel().getSelectedItem().getFilename();
+        return filesTable.getSelectionModel().getSelectedItem().getFilename();
     }
 
-    public String getCurrentPathR() {
-        return pathFieldR.getText();
+    public String getCurrentPathL() {
+        return pathField.getText();
     }
-
-    public void renderServerFileList(List<File> serverItemsList) {
-        updateServerList(Paths.get(".", "root-dir"), serverItemsList);
-    }
-
-
 }

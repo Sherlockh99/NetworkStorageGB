@@ -7,6 +7,10 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.TextField;
+import org.sherlock.netty.ControllerRegistry;
+import org.sherlock.netty.client.Network;
+import org.sherlock.netty.common.dto.AuthRequest;
+import org.sherlock.netty.common.dto.BasicRequest;
 
 import java.io.IOException;
 import java.net.URL;
@@ -15,20 +19,18 @@ import java.util.ResourceBundle;
 public class PrimaryController implements Initializable {
 
 
-    //private final Network network = Network.getInstance();
+    private final Network network = Network.getInstance();
     @FXML
     TextField login, password;
 
     @FXML
     public void btnExitAction(ActionEvent actionEvent) {
-        //network.close();
+        network.close();
         Platform.exit();
     }
 
     @FXML
     private void btnAuth() throws IOException, InterruptedException {
-        /*
-
         String log = login.getText();
         String pass = password.getText();
         if (log == null || log.isEmpty() || log.isBlank()) {
@@ -38,13 +40,11 @@ public class PrimaryController implements Initializable {
         }
         BasicRequest request = new AuthRequest(log, pass);
         network.sendRequest(request);
-
-         */
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        //ControllerRegistry.register(this);
+        ControllerRegistry.register(this);
     }
 
 }
