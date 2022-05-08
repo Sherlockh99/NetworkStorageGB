@@ -3,6 +3,9 @@ package org.sherlock.netty.common;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.sherlock.netty.client.ClientService;
+import org.sherlock.netty.common.dto.BasicResponse;
+import org.sherlock.netty.common.dto.GetFileListRequest;
+import org.sherlock.netty.common.dto.GetFileListResponse;
 
 import java.io.File;
 import java.util.List;
@@ -20,7 +23,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     //Она приостановит выполнение программы, пока в нее не будут добавлены новые данные
     //private final BlockingQueue<Command> answer = new LinkedBlockingQueue<>();
 
-/*
+
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         BasicResponse response = (BasicResponse) msg;
@@ -38,9 +41,5 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             clientService.putServerFileList(serverItemsList);
             return;
         }
-
     }
-
- */
-
 }
