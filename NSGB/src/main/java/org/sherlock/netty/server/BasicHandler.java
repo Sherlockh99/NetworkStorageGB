@@ -1,4 +1,4 @@
-package org.sherlock.netty.common;
+package org.sherlock.netty.server;
 
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
