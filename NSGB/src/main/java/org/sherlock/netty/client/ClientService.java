@@ -1,6 +1,7 @@
 package org.sherlock.netty.client;
 
 import org.sherlock.App;
+import org.sherlock.LoginController;
 import org.sherlock.ServerPanelController;
 import org.sherlock.netty.ControllerRegistry;
 
@@ -18,10 +19,20 @@ public class ClientService {
         }
     }
 
+    public void loginBad() {
+        LoginController controllerObject =
+                (LoginController) ControllerRegistry.getControllerObject(LoginController.class);
+        controllerObject.setVisibleBadLogin();
+
+    }
+
     public void putServerFileList(List<File> serverItemsList) {
         ServerPanelController controllerObject =
                 (ServerPanelController) ControllerRegistry.getControllerObject(ServerPanelController.class);
         controllerObject.renderServerFileList(serverItemsList);
     }
+
+
+
 
 }

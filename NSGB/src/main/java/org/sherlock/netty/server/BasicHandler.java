@@ -46,7 +46,9 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+
         BasicRequest request = (BasicRequest) msg;
+
         //System.out.println(request.getType());
 
         //Consumer<ChannelHandlerContext> channelHandlerContextConsumer = REQUEST_HANDLERS.get(request.getClass());

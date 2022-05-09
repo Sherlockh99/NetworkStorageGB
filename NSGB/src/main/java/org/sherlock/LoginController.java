@@ -4,10 +4,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import org.sherlock.netty.ControllerRegistry;
 import org.sherlock.netty.client.Network;
 import org.sherlock.netty.server.User;
@@ -27,6 +24,9 @@ public class LoginController implements Initializable {
 
     @FXML
     public PasswordField passwordField;
+
+    @FXML
+    public Label badLogin;
 
     @FXML
     public void btnExitAction(ActionEvent actionEvent) {
@@ -59,5 +59,13 @@ public class LoginController implements Initializable {
 
         user = new User(log,pass);
         network.sendRequest(user);
+    }
+
+    public void onRegistrationButtonClick(ActionEvent actionEvent) {
+        badLogin.setVisible(true);
+    }
+
+    public void setVisibleBadLogin(){
+        badLogin.setVisible(true);
     }
 }

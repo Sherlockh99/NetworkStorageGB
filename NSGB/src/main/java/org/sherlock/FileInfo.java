@@ -7,32 +7,9 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 public class FileInfo {
-
-    private String filename;
-    private DirLevel level;
-
-    public String getFilename() {
-        return filename;
-    }
-
-    public enum DirLevel {
-        L0("0"), L1("1"), L2("2"), L3("3"), L4("4"), L5("..");
-        private String name;
-        public String getName() {
-            return name;
-        }
-        DirLevel(String name) {
-            this.name = name;
-        }
-    }
-
-    public DirLevel getLevel() {
-        return level;
-    }
-
     public enum FileType{
-        FILE("F"),
-        DIRECTORY("D");
+            FILE("F"),
+            DIRECTORY("D");
 
         private String name;
 

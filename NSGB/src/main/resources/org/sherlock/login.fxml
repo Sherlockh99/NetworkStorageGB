@@ -24,11 +24,11 @@
     <TextField fx:id="loginField" HBox.hgrow="ALWAYS" promptText="login"/>
     <Label text="Password"/>
     <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" promptText="password"/>
-
+    <Label text="Неверно указан логин/пароль" visible="false" fx:id="badLogin"/>
     <!--
     <Label fx:id="loginText"/> -->
 
     <Button text="Login" onAction="#onLoginButtonClick" focusTraversable="false"/>
-    <!--<Button text="Registration" onAction="#onRegistrationButtonClick" focusTraversable="false"/> -->
+    <Button text="Registration" onAction="#onRegistrationButtonClick" focusTraversable="false"/>
 
 </VBox>
