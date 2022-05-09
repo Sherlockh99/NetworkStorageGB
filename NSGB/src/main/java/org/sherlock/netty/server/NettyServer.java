@@ -11,11 +11,14 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
+import org.sherlock.netty.server.autorization.AuthService;
 
 public class NettyServer {
 
     private static final int MB_20 = 20 * 1_000_000;
     private static final int PORT = 45004;
+
+    private AuthService authService;
 
     public static void main(String[] args) throws InterruptedException {
         EventLoopGroup bossGroup = new NioEventLoopGroup();

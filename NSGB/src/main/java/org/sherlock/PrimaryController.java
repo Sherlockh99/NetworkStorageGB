@@ -11,6 +11,7 @@ import org.sherlock.netty.ControllerRegistry;
 import org.sherlock.netty.client.Network;
 import org.sherlock.netty.common.dto.AuthRequest;
 import org.sherlock.netty.common.dto.BasicRequest;
+import org.sherlock.netty.server.User;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,6 +21,8 @@ public class PrimaryController implements Initializable {
 
 
     private final Network network = Network.getInstance();
+    private User user;
+
     @FXML
     TextField login, password;
 
@@ -38,8 +41,10 @@ public class PrimaryController implements Initializable {
             alert.showAndWait();
             return;
         }
-        BasicRequest request = new AuthRequest(log, pass);
-        network.sendRequest(request);
+
+        user = new User(log,pass);
+        network.sendRequest(user);
+
     }
 
     @Override

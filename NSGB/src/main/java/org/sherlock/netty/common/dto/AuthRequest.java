@@ -3,6 +3,9 @@ package org.sherlock.netty.common.dto;
 
 public class AuthRequest implements BasicRequest {
 
+    private String login;
+    private String password;
+
     public String getLogin() {
         return login;
     }
@@ -17,8 +20,6 @@ public class AuthRequest implements BasicRequest {
     public Boolean getResult() {
         return result;
     }
-    private String login;
-    private String password;
     private Boolean result;
 
     public AuthRequest(String login, String password) {

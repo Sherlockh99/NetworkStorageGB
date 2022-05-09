@@ -66,7 +66,10 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
                     .collect(Collectors.toList());
             BasicResponse basicResponse = new GetFileListResponse("OK", pathList);
             ctx.writeAndFlush(basicResponse);
+        }else if (request instanceof User) {
+            System.out.println("User");
         }
+
         //else if (request instanceof UploadFileRequest) {
 
 
