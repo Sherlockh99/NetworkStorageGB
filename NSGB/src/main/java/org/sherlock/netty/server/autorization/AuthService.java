@@ -9,7 +9,8 @@ public interface AuthService {
      * возвращает никнейм если учетка есть
      * null если пары логин пароль не нашлось
      * */
-     User getUserByLoginAndPassword(String login, String password);
+     boolean checkedLogin(String login, String password);
+
     /**
      * Регистрация нового пользователя
      * при успешной регистрации ( логин и никнейм не заняты ) вернет true

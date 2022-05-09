@@ -12,7 +12,7 @@ public class ClientService {
 
     public void loginSuccessful() {
         try {
-            App.setRoot("secondary");
+            App.setRoot("main");
         } catch (IOException e) {
             e.printStackTrace();
         }

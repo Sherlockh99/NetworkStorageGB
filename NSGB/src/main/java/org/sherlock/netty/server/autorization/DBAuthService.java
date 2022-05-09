@@ -5,13 +5,9 @@ import org.sherlock.netty.server.User;
 public class DBAuthService implements AuthService{
 
     @Override
-    public User getUserByLoginAndPassword(String login, String password) {
-         if (SQLHandler.checkedLogin(login, password)){
-             return new User(login,password);
-         }
-        return null;
+    public boolean checkedLogin(String login, String password) {
+        return SQLHandler.checkedLogin(login, password);
     }
-
 
     /*
     @Override

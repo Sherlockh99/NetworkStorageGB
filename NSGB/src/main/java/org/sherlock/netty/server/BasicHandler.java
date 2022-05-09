@@ -3,7 +3,10 @@ package org.sherlock.netty.server;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.sherlock.netty.common.Enums;
 import org.sherlock.netty.common.dto.*;
+import org.sherlock.netty.server.autorization.DBAuthService;
+import org.sherlock.netty.server.autorization.SQLHandler;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -20,8 +23,8 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
     private String clientName;
     private static int newClientIndex = 1;
 
-    private static final BasicResponse LOGIN_BAD_RESPONSE = new BasicResponse("login bad");
-    private static final BasicResponse LOGIN_OK_RESPONSE = new BasicResponse("login ok");
+    //private static final BasicResponse LOGIN_BAD_RESPONSE = new BasicResponse("login bad");
+    //private static final BasicResponse LOGIN_OK_RESPONSE = new BasicResponse("login ok");
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -49,17 +52,7 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
         //Consumer<ChannelHandlerContext> channelHandlerContextConsumer = REQUEST_HANDLERS.get(request.getClass());
         //channelHandlerContextConsumer.accept(ctx);
 
-        if (request instanceof AuthRequest) {
-            AuthRequest authRequest = (AuthRequest) request;
-
-            if (authRequest.getLogin().equals("dp")) {
-                ctx.writeAndFlush(LOGIN_OK_RESPONSE);
-                //.addListener(ChannelFutureListener.CLOSE);
-            } else {
-                //authRequest.setResult(false);
-                ctx.writeAndFlush(LOGIN_BAD_RESPONSE);
-            }
-        } else if (request instanceof GetFileListRequest) {
+      if (request instanceof GetFileListRequest) {
             Path serverPath = Paths.get("c:\\Programming\\Java\\GB\\NetworkStorageCourse\\");
             List<File> pathList = Files.list(serverPath)
                     .map(Path::toFile)
@@ -67,7 +60,12 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
             BasicResponse basicResponse = new GetFileListResponse("OK", pathList);
             ctx.writeAndFlush(basicResponse);
         }else if (request instanceof User) {
-            System.out.println("User");
+            if(NettyServer.getAuthService().checkedLogin(((User) request).getLogin(), ((User) request).getPassword())){
+                ((User) request).setAuthorization(true);
+                ctx.writeAndFlush(Enums.LOGIN_OK_RESPONSE);
+            }else{
+                ctx.writeAndFlush(Enums.LOGIN_BAD_RESPONSE);
+            };
         }
 
         //else if (request instanceof UploadFileRequest) {

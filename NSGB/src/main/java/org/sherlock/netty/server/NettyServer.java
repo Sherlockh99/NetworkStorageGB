@@ -12,15 +12,29 @@ import io.netty.handler.codec.serialization.ClassResolvers;
 import io.netty.handler.codec.serialization.ObjectDecoder;
 import io.netty.handler.codec.serialization.ObjectEncoder;
 import org.sherlock.netty.server.autorization.AuthService;
+import org.sherlock.netty.server.autorization.DBAuthService;
+import org.sherlock.netty.server.autorization.SQLHandler;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class NettyServer {
+
+    private static final Logger logger = Logger.getLogger(NettyServer.class.getName());
 
     private static final int MB_20 = 20 * 1_000_000;
     private static final int PORT = 45004;
 
-    private AuthService authService;
+    private static AuthService authService;
 
-    public static void main(String[] args) throws InterruptedException {
+    //public static void main(String[] args) throws InterruptedException {
+    public NettyServer(){
+        if(!SQLHandler.connect()){
+            logger.log(Level.SEVERE, "Не удалось подключиться к БД");
+            throw new RuntimeException("Не удалось подключиться к БД");
+        }
+        authService = new DBAuthService();
+
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -38,12 +52,22 @@ public class NettyServer {
                             );
                         }
                     });
-            ChannelFuture channelFuture = serverBootstrap.bind(PORT).sync(); // (7)
-            channelFuture.channel().closeFuture().sync();
+
+            ChannelFuture channelFuture = null; // (7)
+            try {
+                channelFuture = serverBootstrap.bind(PORT).sync();
+                channelFuture.channel().closeFuture().sync();
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+    }
+
+    public static AuthService getAuthService() {
+        return authService;
     }
 
 }
