@@ -15,7 +15,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 
-public class Controller {
+public class MainController {
 
     @FXML
     VBox leftPanel, rightPanel;

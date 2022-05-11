@@ -20,16 +20,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         super.channelActive(ctx);
     }
-    //Для получения данных от сервера воспользуемся блокирующей очередью.
-    //Она приостановит выполнение программы, пока в нее не будут добавлены новые данные
-    //private final BlockingQueue<Command> answer = new LinkedBlockingQueue<>();
-
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        //BasicResponse response = (BasicResponse) msg;
-        //System.out.println(response.getResponse());
-        //String responseText = response.getResponse();
 
         if (msg.equals(Enums.LOGIN_OK_RESPONSE)) {
             clientService.loginSuccessful();
