@@ -26,6 +26,13 @@ public class ClientService {
 
     }
 
+    public void loginBusy() {
+        LoginController controllerObject =
+                (LoginController) ControllerRegistry.getControllerObject(LoginController.class);
+        controllerObject.setVisibleBusyRegistration();
+
+    }
+
     public void putServerFileList(List<File> serverItemsList) {
         ServerPanelController controllerObject =
                 (ServerPanelController) ControllerRegistry.getControllerObject(ServerPanelController.class);

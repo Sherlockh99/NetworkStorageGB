@@ -10,9 +10,16 @@ public class User implements BasicRequest {
 
     private boolean authorization;
 
+    private boolean registration;
+
     public User(String login, String password){
         this.login = login;
         this.password = password;
+    }
+
+    public User(String login, String password, boolean registration){
+        this(login,password);
+        this.registration = registration;
     }
 
     @Override
@@ -23,4 +30,10 @@ public class User implements BasicRequest {
     public void setAuthorization(boolean authorization) {
         this.authorization = authorization;
     }
+
+    public void setRegistration(boolean registration) {
+        this.registration = registration;
+    }
+
+
 }

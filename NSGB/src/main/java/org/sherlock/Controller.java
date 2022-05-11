@@ -6,6 +6,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
+import org.sherlock.netty.ControllerRegistry;
 
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
@@ -20,6 +21,11 @@ public class Controller {
     VBox leftPanel, rightPanel;
 
     public void btnExitAction(ActionEvent actionEvent) {
+
+        LoginController controllerObject =
+                (LoginController) ControllerRegistry.getControllerObject(LoginController.class);
+        controllerObject.closeNetwork();
+
         Platform.exit();
     }
 

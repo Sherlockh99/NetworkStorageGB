@@ -6,7 +6,7 @@ public class SQLHandler {
     private static Connection connection; //для подключения к БД
     private static PreparedStatement psGetNickName;
     private static PreparedStatement psRegistration;
-    //private static PreparedStatement psChangeNick;
+    private static PreparedStatement psCheckLogin;
 
     public static boolean connect(){
         try{
@@ -22,9 +22,10 @@ public class SQLHandler {
     private static void prepareAllStatements() throws SQLException{
         psGetNickName = connection.prepareStatement("SELECT login FROM users WHERE login = ? AND password = ?;");
         psRegistration = connection.prepareStatement("INSERT INTO users (login, password) VALUES ( ? , ?);");
+        psCheckLogin = connection.prepareStatement("SELECT login FROM users WHERE login = ?;");
     }
 
-    public static Boolean checkedLogin(String login, String password){
+    public static Boolean isCurrentLogin(String login, String password){
         boolean res = false;
         try{
             psGetNickName.setString(1,login);
@@ -39,6 +40,7 @@ public class SQLHandler {
         }
         return res;
     }
+
 
     /*
     public static String getNickNameByLoginAndPassword(String login, String password){

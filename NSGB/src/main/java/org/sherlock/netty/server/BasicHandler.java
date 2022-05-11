@@ -5,8 +5,6 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import org.sherlock.netty.common.Enums;
 import org.sherlock.netty.common.dto.*;
-import org.sherlock.netty.server.autorization.DBAuthService;
-import org.sherlock.netty.server.autorization.SQLHandler;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -62,18 +60,22 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
             BasicResponse basicResponse = new GetFileListResponse("OK", pathList);
             ctx.writeAndFlush(basicResponse);
         }else if (request instanceof User) {
-            if(NettyServer.getAuthService().checkedLogin(((User) request).getLogin(), ((User) request).getPassword())){
-                ((User) request).setAuthorization(true);
-                ctx.writeAndFlush(Enums.LOGIN_OK_RESPONSE);
-            }else{
-                ctx.writeAndFlush(Enums.LOGIN_BAD_RESPONSE);
-            };
+          if(((User) request).isRegistration()){
+              if(NettyServer.getAuthService().registration(((User) request).getLogin(), ((User) request).getPassword())){
+                  ((User) request).setAuthorization(true);
+                  ctx.writeAndFlush(Enums.LOGIN_OK_RESPONSE);
+              }else{
+                  ctx.writeAndFlush(Enums.REGISTRATION_BAD_RESPONSE);
+              }
+          }else {
+              if (NettyServer.getAuthService().isCurrentLogin(((User) request).getLogin(), ((User) request).getPassword())) {
+                  ((User) request).setAuthorization(true);
+                  ctx.writeAndFlush(Enums.LOGIN_OK_RESPONSE);
+              } else {
+                  ctx.writeAndFlush(Enums.LOGIN_BAD_RESPONSE);
+              }
+          }
         }
-
-        //else if (request instanceof UploadFileRequest) {
-
-
-        //}
     }
 
     @Override

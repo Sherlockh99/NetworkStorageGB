@@ -39,6 +39,9 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         } else if (msg.equals(Enums.LOGIN_BAD_RESPONSE)) {
             clientService.loginBad();
             return;
+        } else if (msg.equals(Enums.REGISTRATION_BAD_RESPONSE)) {
+            clientService.loginBusy();
+            return;
         } else {
             BasicResponse response = (BasicResponse) msg;
             if (response instanceof GetFileListResponse) {

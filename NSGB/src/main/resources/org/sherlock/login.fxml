@@ -25,10 +25,12 @@
     <Label text="Password"/>
     <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" promptText="password"/>
     <Label text="Неверно указан логин/пароль" visible="false" fx:id="badLogin"/>
+    <Label text="Логин занят" visible="false" fx:id="busyLogin"/>
     <!--
     <Label fx:id="loginText"/> -->
 
     <Button text="Login" onAction="#onLoginButtonClick" focusTraversable="false"/>
     <Button text="Registration" onAction="#onRegistrationButtonClick" focusTraversable="false"/>
+    <Button text="Exit" onAction="#onExitButtonClick" focusTraversable="false"/>
 
 </VBox>
