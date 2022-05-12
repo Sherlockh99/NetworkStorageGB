@@ -25,7 +25,7 @@ public class NettyServer {
     private static final int MB_20 = 20 * 1_000_000;
     private static final int PORT = 45004;
 
-    private static AuthService authService;
+    public static final String ROOT_DIRECTORY = "c:\\Programming\\Files\\";
 
     //public static void main(String[] args) throws InterruptedException {
     public NettyServer(){
@@ -33,7 +33,7 @@ public class NettyServer {
             logger.log(Level.SEVERE, "Не удалось подключиться к БД");
             throw new RuntimeException("Не удалось подключиться к БД");
         }
-        authService = new DBAuthService();
+
 
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -64,10 +64,6 @@ public class NettyServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
-    }
-
-    public static AuthService getAuthService() {
-        return authService;
     }
 
 }

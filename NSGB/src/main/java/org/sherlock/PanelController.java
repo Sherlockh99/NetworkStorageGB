@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
+import org.sherlock.netty.ControllerRegistry;
 
 import java.io.IOException;
 import java.net.URL;
@@ -28,6 +29,8 @@ public class PanelController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ControllerRegistry.register(this);
+
         TableColumn<FileInfo, String> fileTypeColumn = new TableColumn<>();
         fileTypeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType().getName()));
         fileTypeColumn.setPrefWidth(24);
@@ -59,9 +62,11 @@ public class PanelController implements Initializable {
                 }
             };
         });
+
         fileSizeColumn.setPrefWidth(120);
 
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
         TableColumn<FileInfo, String> fileDateColumn = new TableColumn<>("Дата изменения");
         fileDateColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLastModified().format(dtf)));
         fileDateColumn.setPrefWidth(120);

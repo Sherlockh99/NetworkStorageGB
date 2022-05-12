@@ -29,7 +29,6 @@ public class MainController {
         Platform.exit();
     }
 
-
     public void copyBthAction(ActionEvent actionEvent) {
         PanelController leftPC = (PanelController) leftPanel.getProperties().get("ctrl");
         PanelController rightPC = (PanelController) rightPanel.getProperties().get("ctrl");

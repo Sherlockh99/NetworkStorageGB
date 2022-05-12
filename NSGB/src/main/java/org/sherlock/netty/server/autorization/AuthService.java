@@ -15,10 +15,5 @@ public interface AuthService {
      * */
     boolean registration(String login, String password);
 
-    /*
-    boolean changeNick(String oldNickname, String newNickname);
-    default void disconnect() {
-    }
-     */
 
 }

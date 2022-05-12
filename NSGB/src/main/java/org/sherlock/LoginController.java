@@ -85,4 +85,7 @@ public class LoginController implements Initializable {
         network.close();
     }
 
+    public Network getNetwork() {
+        return network;
+    }
 }

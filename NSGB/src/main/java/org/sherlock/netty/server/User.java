@@ -31,9 +31,6 @@ public class User implements BasicRequest {
         this.authorization = authorization;
     }
 
-    public void setRegistration(boolean registration) {
-        this.registration = registration;
-    }
 
 
 }

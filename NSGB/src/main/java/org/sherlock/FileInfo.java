@@ -11,6 +11,7 @@ import java.time.ZoneOffset;
 @Getter
 @Setter
 public class FileInfo {
+
     public enum FileType{
             FILE("F"),
             DIRECTORY("D");

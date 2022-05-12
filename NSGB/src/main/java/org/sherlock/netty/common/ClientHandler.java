@@ -11,7 +11,7 @@ import java.io.File;
 import java.util.List;
 
 
-// Используется при обработке pipeline на стороне клиента (NettyClient)
+// Используется при обработке pipeline (класс Network) (ответов от сервера) на стороне клиента (NettyClient)
 public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     private final ClientService clientService = new ClientService();
@@ -26,8 +26,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
         if (msg.equals(Enums.LOGIN_OK_RESPONSE)) {
             clientService.loginSuccessful();
-            ctx.writeAndFlush(new GetFileListRequest());
-            //ctx.writeAndFlush(Enums.GET_FILE_LIST_RESPONSE);
+            ctx.writeAndFlush(new GetFileListRequest(""));
             return;
         } else if (msg.equals(Enums.LOGIN_BAD_RESPONSE)) {
             clientService.loginBad();
@@ -39,7 +38,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
             BasicResponse response = (BasicResponse) msg;
             if (response instanceof GetFileListResponse) {
                 List<File> serverItemsList = ((GetFileListResponse) response).getItemsList();
-                clientService.putServerFileList(serverItemsList);
+                String actualDirectory = ((GetFileListResponse) response).getActualDirectory();
+                clientService.putServerFileList(serverItemsList,actualDirectory);
                 return;
             }
         }

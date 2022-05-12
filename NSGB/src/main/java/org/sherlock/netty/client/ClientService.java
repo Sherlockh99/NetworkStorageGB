@@ -33,10 +33,10 @@ public class ClientService {
 
     }
 
-    public void putServerFileList(List<File> serverItemsList) {
+    public void putServerFileList(List<File> serverItemsList, String actualDirectory) {
         ServerPanelController controllerObject =
                 (ServerPanelController) ControllerRegistry.getControllerObject(ServerPanelController.class);
-        controllerObject.renderServerFileList(serverItemsList);
+        controllerObject.renderServerFileList(serverItemsList,actualDirectory);
     }
 
 

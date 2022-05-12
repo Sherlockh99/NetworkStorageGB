@@ -41,25 +41,6 @@ public class SQLHandler {
         return res;
     }
 
-
-    /*
-    public static String getNickNameByLoginAndPassword(String login, String password){
-        String nick = null;
-        try{
-            psGetNickName.setString(1,login);
-            psGetNickName.setString(2,password);
-            ResultSet rs = psGetNickName.executeQuery();
-            if(rs.next()){
-                nick = rs.getString(1);
-            }
-            rs.close();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-        return nick;
-    }
-*/
-
     public static boolean registration(String login, String password){
         try{
             psRegistration.setString(1, login);
