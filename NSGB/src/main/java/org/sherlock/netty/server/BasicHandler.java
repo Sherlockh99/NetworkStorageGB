@@ -18,7 +18,7 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
 
     private static User user;
     private String currentPath;
-    private boolean isRootFolder=true;
+
     private static AuthService authService;
 
     @Override
@@ -61,14 +61,17 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
           }
             if(isAuthorization){
                 user.setAuthorization(true);
-                //currentPath = user.getLogin();
                 currentPath = NettyServer.ROOT_DIRECTORY + user.getLogin();
             }
         } else if (request instanceof Enums) {
             if(request == Enums.LEVEL_UP){
-                Path serverPath = Paths.get(currentPath);
-                if(!currentPath.equals(NettyServer.ROOT_DIRECTORY + user.getLogin())){
+
+                Path serverPath;
+                if(currentPath.equals(NettyServer.ROOT_DIRECTORY + user.getLogin())){
+                    serverPath = Paths.get(currentPath);
+                }else{
                     serverPath = Paths.get(currentPath).getParent();
+                    currentPath = serverPath.toString();
                 }
 
                 List<File> pathList = Files.list(serverPath)
