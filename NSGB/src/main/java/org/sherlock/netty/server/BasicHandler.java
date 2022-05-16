@@ -32,6 +32,7 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
         BasicRequest request = (BasicRequest) msg;
 
         if (request instanceof GetFileListRequest) {
+
             currentPath = currentPath + "\\"+((GetFileListRequest) request).getNewDirectory();
 
             Path serverPath = Paths.get(currentPath);
@@ -82,6 +83,7 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
             }
         }
     }
+
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
