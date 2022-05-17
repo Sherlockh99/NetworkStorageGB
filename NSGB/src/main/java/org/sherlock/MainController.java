@@ -3,19 +3,23 @@ package org.sherlock;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.layout.VBox;
 import org.sherlock.netty.ControllerRegistry;
+import org.sherlock.netty.client.Network;
 
 import java.io.IOException;
+import java.net.URL;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ResourceBundle;
 
 
-public class MainController {
+public class MainController implements Initializable {
 
     @FXML
     VBox leftPanel, rightPanel;
@@ -31,8 +35,9 @@ public class MainController {
 
     public void copyBthAction(ActionEvent actionEvent) {
         PanelController leftPC = (PanelController) leftPanel.getProperties().get("ctrl");
-        PanelController rightPC = (PanelController) rightPanel.getProperties().get("ctrl");
+        ServerPanelController rightPC = (ServerPanelController) rightPanel.getProperties().get("ctrl");
 
+        /*
         if(leftPC.getSelectedFilename()==null && rightPC.getSelectedFilename()==null){
             Alert alert = new Alert(Alert.AlertType.ERROR,"Не выбран файл", ButtonType.OK);
             alert.showAndWait();
@@ -53,9 +58,9 @@ public class MainController {
 
         Path srcPath = Paths.get(srcPC.getCurrentPath(),srcPC.getSelectedFilename());
         Path dstPath = Paths.get(dstPC.getCurrentPath()).resolve(srcPath.getFileName().toString());
-        copyFiles(srcPath,dstPath);
-        dstPC.updateList(Paths.get(dstPC.getCurrentPath()));
-
+        //copyFiles(srcPath,dstPath);
+        //dstPC.updateList(Paths.get(dstPC.getCurrentPath()));
+        */
     }
 
     private void copyFiles(Path srcPath,Path dstPath){
@@ -83,5 +88,10 @@ public class MainController {
             alert.showAndWait();
         }
 
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        ControllerRegistry.register(this);
     }
 }

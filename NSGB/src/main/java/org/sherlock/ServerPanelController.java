@@ -25,22 +25,20 @@ import java.util.stream.Collectors;
 public class ServerPanelController implements Initializable {
 
     @FXML
-    //TableView<FileInfoServer> filesTableR;
-    TableView<FileInfo> filesTableR;
+    TableView<FileInfo> filesTable;
 
     @FXML
-    TextField pathFieldR;
+    TextField pathField;
 
     private Network network;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
 
+        ControllerRegistry.register(this);
         LoginController controllerObject =
                 (LoginController) ControllerRegistry.getControllerObject(LoginController.class);
         network = controllerObject.getNetwork();
-
-        ControllerRegistry.register(this);
 
         TableColumn<FileInfo, String> fileTypeColumn = new TableColumn<>();
         fileTypeColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getType().getName()));
@@ -81,15 +79,15 @@ public class ServerPanelController implements Initializable {
         fileDateColumn.setCellValueFactory(param -> new SimpleStringProperty(param.getValue().getLastModified().format(dtf)));
         fileDateColumn.setPrefWidth(120);
 
-        filesTableR.getColumns().addAll(fileTypeColumn, filenameColumn, fileSizeColumn, fileDateColumn);
-        filesTableR.getSortOrder().add(fileTypeColumn);
+        filesTable.getColumns().addAll(fileTypeColumn, filenameColumn, fileSizeColumn, fileDateColumn);
+        filesTable.getSortOrder().add(fileTypeColumn);
 
-        filesTableR.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        filesTable.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent mouseEvent) {
                 if (mouseEvent.getClickCount() == 2) {
-                    if(filesTableR.getSelectionModel().getSelectedItem().getType()== FileInfo.FileType.DIRECTORY){
-                        sendRequestListFileServer(filesTableR.getSelectionModel().getSelectedItem().getFileName());
+                    if(filesTable.getSelectionModel().getSelectedItem().getType()== FileInfo.FileType.DIRECTORY){
+                        sendRequestListFileServer(filesTable.getSelectionModel().getSelectedItem().getFileName());
                     }
                 }
             }
@@ -106,13 +104,13 @@ public class ServerPanelController implements Initializable {
     }
 
     public void updateServerList(Path path, List<File> serverItemsList) {
-        filesTableR.getItems().clear();
+        filesTable.getItems().clear();
         List<FileInfo> serverFileList = serverItemsList.stream()
                 .map(File::toPath)
                 .map(FileInfo::new)
                 .collect(Collectors.toList());
-        filesTableR.getItems().addAll(serverFileList);
-        filesTableR.sort();
+        filesTable.getItems().addAll(serverFileList);
+        filesTable.sort();
     }
 
 
@@ -126,7 +124,7 @@ public class ServerPanelController implements Initializable {
     }
 
     public void renderServerFileList(List<File> serverItemsList, String actualDirectory) {
-        pathFieldR.setText(actualDirectory);
+        pathField.setText(actualDirectory);
         updateServerList(Paths.get(".", "root-dir"), serverItemsList);
 
     }

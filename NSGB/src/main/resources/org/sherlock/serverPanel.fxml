@@ -24,9 +24,11 @@
 
 
     <HBox>
-        <TextField fx:id="pathFieldR" editable="false" HBox.hgrow="ALWAYS"/>
+        <TextField fx:id="pathField" editable="false" HBox.hgrow="ALWAYS"/>
         <Button text="Вверх" onAction="#btnPathUpActionR"/>
     </HBox>
-    <TableView fx:id="filesTableR" VBox.vgrow="ALWAYS"/>
-
+    <TableView fx:id="filesTable" VBox.vgrow="ALWAYS"/>
+    <properties>
+        <ctrl> <fx:reference source="controller"/></ctrl>
+    </properties>
 </VBox>
