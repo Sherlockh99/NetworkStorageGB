@@ -15,8 +15,6 @@ import org.sherlock.netty.common.dto.GetFileListRequest;
 
 import java.io.File;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -103,7 +101,7 @@ public class ServerPanelController implements Initializable {
         }
     }
 
-    public void updateServerList(Path path, List<File> serverItemsList) {
+    public void updateServerList(List<File> serverItemsList) {
         filesTable.getItems().clear();
         List<FileInfo> serverFileList = serverItemsList.stream()
                 .map(File::toPath)
@@ -112,8 +110,6 @@ public class ServerPanelController implements Initializable {
         filesTable.getItems().addAll(serverFileList);
         filesTable.sort();
     }
-
-
 
     public void btnPathUpActionR(ActionEvent actionEvent) {
         try {
@@ -125,8 +121,13 @@ public class ServerPanelController implements Initializable {
 
     public void renderServerFileList(List<File> serverItemsList, String actualDirectory) {
         pathField.setText(actualDirectory);
-        updateServerList(Paths.get(".", "root-dir"), serverItemsList);
-
+        updateServerList(serverItemsList);
     }
 
+    public String getSelectedFilename(){
+        if(!filesTable.isFocused()){
+            return null;
+        }
+        return filesTable.getSelectionModel().getSelectedItem().getFileName();
+    }
 }

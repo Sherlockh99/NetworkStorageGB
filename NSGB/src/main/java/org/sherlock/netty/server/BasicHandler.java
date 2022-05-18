@@ -80,6 +80,9 @@ public class BasicHandler extends ChannelInboundHandlerAdapter {
                         .collect(Collectors.toList());
                 BasicResponse basicResponse = new GetFileListResponse("OK", pathList, currentPath);
                 ctx.writeAndFlush(basicResponse);
+            } else if (request instanceof PartFile) {
+                PartFile partFile = (PartFile) msg;
+                System.out.println(partFile.getBytes());
             }
         }
     }
