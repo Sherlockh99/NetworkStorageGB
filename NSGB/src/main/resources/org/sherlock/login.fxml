@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.PasswordField?>
+<?import java.net.URL?>
+<VBox alignment="CENTER" spacing="2.0" xmlns:fx="http://javafx.com/fxml"
+      fx:controller="org.sherlock.LoginController">
+
+    <padding>
+        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+    </padding>
+
+    <stylesheets>
+        <URL value="@css/style.css"/>
+    </stylesheets>
+
+    <Label text="Login"/>
+    <TextField fx:id="loginField" HBox.hgrow="ALWAYS" promptText="login"/>
+    <Label text="Password"/>
+    <PasswordField fx:id="passwordField" HBox.hgrow="ALWAYS" promptText="password"/>
+    <Label text="Неверно указан логин/пароль" visible="false" fx:id="badLogin"/>
+    <Label text="Логин занят" visible="false" fx:id="busyLogin"/>
+    <!--
+    <Label fx:id="loginText"/> -->
+
+    <Button text="Login" onAction="#onLoginButtonClick" focusTraversable="false"/>
+    <Button text="Registration" onAction="#onRegistrationButtonClick" focusTraversable="false"/>
+    <Button text="Exit" onAction="#onExitButtonClick" focusTraversable="false"/>
+
+</VBox>
